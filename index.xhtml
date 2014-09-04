@@ -36,9 +36,6 @@
 
     <div id="timer"></div>
     <div id="remaining"></div>
-    <audio id="ding" preload="automatic">
-      <source src="glass.aiff" />
-    </audio>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
     <script>
@@ -60,7 +57,7 @@
       var workTime = 30, restTime = 10; timer = null;
 
       function next(){
-        ding();
+        beep();
         var current = routine.shift()
         $('body').removeClass("start").removeClass("rest");
         $('#current').html(current);
@@ -70,7 +67,7 @@
       };
 
       function rest(){
-        ding();
+        beep();
         $('body').addClass("rest");
         var upNext = routine[0];
         if (upNext != null) {
@@ -90,8 +87,17 @@
         }
       };
 
-      function ding(){
-        document.getElementById('ding').play();
+      function beep(){
+        var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        oscillator = audioCtx.createOscillator();
+        var gainNode = audioCtx.createGain(); // to control volume
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        gainNode.gain.value = 0.1;
+        
+        oscillator.frequency.value = 2500; // value in hertz
+        oscillator.start(0);
+        oscillator.stop(0.1); // stop after given delay (in seconds)
       };
 
     </script>
