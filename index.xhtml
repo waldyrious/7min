@@ -57,7 +57,7 @@
       var workTime = 30, restTime = 10; timer = null;
 
       function next(){
-        beep();
+        beep(); setTimeout(beep, 200); // beep twice
         var current = routine.shift()
         $('body').removeClass("start").removeClass("rest");
         $('#current').html(current);
@@ -67,7 +67,7 @@
       };
 
       function rest(){
-        beep();
+        beep(2000, 0.5); // beep once, with a lower frequency
         $('body').addClass("rest");
         var upNext = routine[0];
         if (upNext != null) {
@@ -87,7 +87,7 @@
         }
       };
 
-      function beep(){
+      function beep(frequency, duration){
         var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         oscillator = audioCtx.createOscillator();
         var gainNode = audioCtx.createGain(); // to control volume
@@ -95,9 +95,9 @@
         gainNode.connect(audioCtx.destination);
         gainNode.gain.value = 0.1;
         
-        oscillator.frequency.value = 2500; // value in hertz
+        oscillator.frequency.value = (frequency || 2500); // value in hertz
         oscillator.start(0);
-        oscillator.stop(0.1); // stop after given delay (in seconds)
+        oscillator.stop(duration || 0.1); // stop after given delay (in seconds)
       };
 
     </script>
