@@ -87,19 +87,17 @@
         }
       }
 
-      var beep = (function () {
+      function beep(frequency, duration){
         var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        return function (frequency, duration) {
-          var oscillator = audioCtx.createOscillator();
-          var gainNode = audioCtx.createGain(); // to control volume
-          oscillator.connect(gainNode);
-          gainNode.connect(audioCtx.destination);
-          gainNode.gain.value = 0.1;
-          oscillator.frequency.value = (frequency || 2500); // value in hertz
-          oscillator.start(0);
-          oscillator.stop(duration || 0.1); // stop after given delay (in seconds)
-        };
-      })();
+        var oscillator = audioCtx.createOscillator();
+        var gainNode = audioCtx.createGain(); // to control volume
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        gainNode.gain.value = 0.1;
+        oscillator.frequency.value = (frequency || 2500); // value in hertz
+        oscillator.start(0);
+        oscillator.stop(duration || 0.1); // stop after given delay (in seconds)
+      };
 
     </script>
   </body>
