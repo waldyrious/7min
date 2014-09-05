@@ -54,50 +54,52 @@
         'Plank'                // Core
         ];
 
-      var workTime = 30, restTime = 10; timer = null;
+      var workTime = 30, restTime = 10;
 
       function next(){
         beep(); setTimeout(beep, 200); // beep twice
-        var current = routine.shift()
+        var current = routine.shift();
         $('body').removeClass("start").removeClass("rest");
         $('#current').html(current);
         $('#remaining').html(routine.length + " to go");
         updateClock(workTime);
         setTimeout(rest, workTime * 1000);
-      };
+      }
 
       function rest(){
         beep(2000, 0.5); // beep once, with a lower frequency
         $('body').addClass("rest");
         var upNext = routine[0];
-        if (upNext != null) {
+        if (upNext !== null) {
           $('#current').html('Rest. ' + upNext + ' next.');
           updateClock(restTime);
           setTimeout(next, restTime * 1000);
         } else {
           $('#timer').hide();
-          $('#current').html("Good job!")
+          $('#current').html("Good job!");
         }
-      };
+      }
 
       function updateClock(n){
         $('#timer').show().html(n);
         if (n > 1) {
           setTimeout(function() { updateClock(n-1); }, 1000);
         }
-      };
+      }
 
-      function beep(frequency, duration){
+      var beep = (function () {
         var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        oscillator = audioCtx.createOscillator();
-        var gainNode = audioCtx.createGain(); // to control volume
-        oscillator.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-        gainNode.gain.value = 0.1;
-        oscillator.frequency.value = (frequency || 2500); // value in hertz
-        oscillator.start(0);
-        oscillator.stop(duration || 0.1); // stop after given delay (in seconds)
-      };
+        return function (frequency, duration) {
+          var oscillator = audioCtx.createOscillator();
+          var gainNode = audioCtx.createGain(); // to control volume
+          oscillator.connect(gainNode);
+          gainNode.connect(audioCtx.destination);
+          gainNode.gain.value = 0.1;
+          oscillator.frequency.value = (frequency || 2500); // value in hertz
+          oscillator.start(0);
+          oscillator.stop(duration || 0.1); // stop after given delay (in seconds)
+        };
+      })();
 
     </script>
   </body>
