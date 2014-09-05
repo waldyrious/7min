@@ -43,12 +43,12 @@
         'Jumping jacks',       // Whole body
         'Wall sit',            // Lower body
         'Push-ups',            // Upper body
-        'Crunches',            // Core
+        'Abdominal crunches',  // Core
         'Burpees',             // Whole body
         'Squat',               // Lower body
         'Tricep dips',         // Upper body
         'Superman stretch',    // Core
-        'High knees',          // Whole body
+        'High knees running',  // Whole body
         'Lunges',              // Lower body 
         'Push-ups + rotation', // Upper body
         'Plank'                // Core
@@ -94,7 +94,6 @@
         oscillator.connect(gainNode);
         gainNode.connect(audioCtx.destination);
         gainNode.gain.value = 0.1;
-        
         oscillator.frequency.value = (frequency || 2500); // value in hertz
         oscillator.start(0);
         oscillator.stop(duration || 0.1); // stop after given delay (in seconds)
