@@ -45,7 +45,9 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script>
-      "use strict";
+    (function () {
+      'use strict';
+
       var routine = [
         'Jumping jacks',       // Whole body
         'Wall sit',            // Lower body
@@ -63,19 +65,19 @@
 
       var workTime = 30, restTime = 10;
 
-      function next(){
+      function next() {
         beep(); setTimeout(beep, 200); // beep twice
         var current = routine.shift();
-        $('body').removeClass("start").removeClass("rest");
+        $('body').removeClass('start').removeClass('rest');
         $('#current').html(current);
-        $('#remaining').html(routine.length + " to go");
+        $('#remaining').html(routine.length + ' to go');
         updateClock(workTime);
         setTimeout(rest, workTime * 1000);
       }
 
-      function rest(){
+      function rest() {
         beep(2000, 0.5); // beep once, with a lower frequency
-        $('body').addClass("rest");
+        $('body').addClass('rest');
         var upNext = routine[0];
         if (upNext !== undefined) {
           $('#current').html('Rest. ' + upNext + ' next.');
@@ -83,29 +85,29 @@
           setTimeout(next, restTime * 1000);
         } else {
           $('#timer').hide();
-          $('#current').html("Good job!");
+          $('#current').html('Good job!');
         }
       }
 
-      function updateClock(n){
+      function updateClock(n) {
         $('#timer').show().html(n);
         if (n > 1) {
           setTimeout(function() { updateClock(n-1); }, 1000);
         }
       }
 
-      function beep(frequency, duration){
-        var audioCtx = new AudioContext;
+      function beep(frequency, duration) {
+        var audioCtx = new AudioContext();
         var oscillator = audioCtx.createOscillator();
         var gainNode = audioCtx.createGain(); // to control volume
         oscillator.connect(gainNode);
         gainNode.connect(audioCtx.destination);
         gainNode.gain.value = 0.1;
-        oscillator.frequency.value = (frequency || 2500); // value in hertz
+        oscillator.frequency.value = frequency || 2500; // value in hertz
         oscillator.start(0);
         oscillator.stop(duration || 0.1); // stop after given delay (in seconds)
-      };
-
+      }
+    }());
     </script>
   </body>
 </html>
