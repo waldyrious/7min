@@ -60,9 +60,10 @@
         'Lunges',              // Lower body 
         'Push-ups + rotation', // Upper body
         'Plank'                // Core
-        ];
-
-      var workTime = 30, restTime = 10;
+        ],
+        workTime = 30,
+        restTime = 10,
+        audioCtx = new AudioContext();
 
       function next() {
         beep(); setTimeout(beep, 200); // beep twice
@@ -96,15 +97,14 @@
       }
 
       function beep(frequency, duration) {
-        var audioCtx = new AudioContext();
         var oscillator = audioCtx.createOscillator();
         var gainNode = audioCtx.createGain(); // to control volume
         oscillator.connect(gainNode);
         gainNode.connect(audioCtx.destination);
         gainNode.gain.value = 0.1;
         oscillator.frequency.value = frequency || 2500; // value in hertz
-        oscillator.start(0);
-        oscillator.stop(duration || 0.1); // stop after given delay (in seconds)
+        oscillator.start(audioCtx.currentTime);
+        oscillator.stop(audioCtx.currentTime + (duration || 0.1)); // stop after given delay (in seconds)
       }
     </script>
   </body>
