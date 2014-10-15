@@ -34,7 +34,7 @@
   <body class="start">
 
     <div id="current">
-      <a id="start" onclick="next()">
+      <a id="start" onclick="start(3)">
         Start ▶
       </a>
     </div>
@@ -65,6 +65,17 @@
         restTime = 10,
         audioCtx = new AudioContext();
 
+      function start(countdown) {
+        var i = isNaN(countdown) ? 3 : countdown;
+        if (i > 0) {
+          $('#current').text(countdown);
+          setTimeout(function(){ start(i - 1); }, 1000);
+        }
+        else {
+          next();
+        }
+      }
+      
       function next() {
         beep(); setTimeout(beep, 200); // beep twice
         var current = routine.shift();
