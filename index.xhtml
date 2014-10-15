@@ -34,7 +34,7 @@
   <body class="start">
 
     <div id="current">
-      <a id="start" onclick="start(3)">
+      <a id="start" onclick="start(5)">
         Start ▶
       </a>
     </div>
@@ -68,6 +68,7 @@
       function start(countdown) {
         var i = isNaN(countdown) ? 3 : countdown;
         if (i > 0) {
+          beep();
           $('#current').text(countdown);
           setTimeout(function(){ start(i - 1); }, 1000);
         }
