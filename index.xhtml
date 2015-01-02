@@ -13,8 +13,9 @@
         font-size: 8em;
         color: OrangeRed;
       }
-      body.rest { color: LimeGreen; }
       body.start { color: SteelBlue; }
+      body.rest { color: LimeGreen; }
+      body.end { color: White; background: LimeGreen; }
 
       #start { cursor: pointer; }
       #timer { font-size: 2em; }
@@ -92,14 +93,15 @@
 
       function rest() {
         beep(2000, 0.5); // beep once, with a lower frequency
-        $('body').addClass('rest');
         var upNext = routine[0];
         if (upNext !== undefined) {
+          $('body').addClass('rest');
           $('#current').html('Rest. ' + upNext + ' next.');
           updateClock(restTime);
           setTimeout(next, restTime * 1000);
-        } else {
+        } else { // end
           $('#timer').hide();
+          $('body').addClass('end');
           $('#current').html('Good job!');
         }
       }
