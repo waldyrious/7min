@@ -128,7 +128,7 @@
         var gainNode = audioCtx.createGain(); // to control volume
         oscillator.connect(gainNode);
         gainNode.connect(audioCtx.destination);
-        gainNode.gain.value = 0.1;
+        gainNode.gain.value = 0.2;
         oscillator.frequency.value = frequency || 2500; // value in hertz
         oscillator.start(audioCtx.currentTime);
         oscillator.stop(audioCtx.currentTime + (duration || 0.1)); // stop after given delay (in seconds)
